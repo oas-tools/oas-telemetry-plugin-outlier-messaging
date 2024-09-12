@@ -58698,7 +58698,7 @@ var OutlierDetector = class {
     this.dbglog(`addValue(${v}): avg=${this.avgHistory.toFixed(3)}, std=${this.stdHistory.toFixed(3)}`);
   }
   isOutlier(v) {
-    return v >= this.avgHistory + this.upperOutlierSensitivity * this.stdHistory || v <= this.avgHistory - this.lowerOutlierSensitivity * this.stdHistory;
+    return v > this.avgHistory + this.upperOutlierSensitivity * this.stdHistory || v < this.avgHistory - this.lowerOutlierSensitivity * this.stdHistory;
   }
   printParams() {
     dbglog(this.getParams());

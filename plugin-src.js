@@ -82,8 +82,8 @@ class OutlierDetector{
   }
   
   isOutlier(v){
-      return (v >= (this.avgHistory+(this.upperOutlierSensitivity*this.stdHistory))) || 
-             (v <= (this.avgHistory-(this.lowerOutlierSensitivity*this.stdHistory))) ;
+      return (v > (this.avgHistory+(this.upperOutlierSensitivity*this.stdHistory))) || 
+             (v < (this.avgHistory-(this.lowerOutlierSensitivity*this.stdHistory))) ;
   }
 
   printParams(){
