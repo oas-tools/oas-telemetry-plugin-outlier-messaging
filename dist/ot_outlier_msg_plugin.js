@@ -58812,8 +58812,8 @@ ${msg}`);
   static newValue(v, reqInfo) {
     if (_OutlierMessagingPlugin.trainingValuesCount < _OutlierMessagingPlugin.trainigValueThreshold) {
       _OutlierMessagingPlugin.trainingValuesCount++;
-      dbglog(`Processing Trainig Request response time #${_OutlierMessagingPlugin.trainingValuesCount}: ${v} ms`);
-      dbglog(`Current trained outlier detection range: ${_OutlierMessagingPlugin.od.getRange()} ms`);
+      dbglog(`Processing Trainig Request response time #${_OutlierMessagingPlugin.trainingValuesCount}: ${v} s.`);
+      dbglog(`Current trained outlier detection range: ${_OutlierMessagingPlugin.od.getRange()} s.`);
       return _OutlierMessagingPlugin.od.addValue(v);
     } else if (_OutlierMessagingPlugin.od.isOutlier(v)) {
       _OutlierMessagingPlugin.sendMessage(` Abnormal response time on ${reqInfo.method} to <${reqInfo.target}> with status ${reqInfo.status_code}
