@@ -1,0 +1,27 @@
+{
+  "name": "oas-telemetry-plugin-outlier-messaging",
+  "version": "1.0.0",
+  "description": "This is a plugin for [oas-telemetry](https://github.com/oas-tools/oas-telemetry)  designed to alert for anomalies (abnormal response times) through messaging (e.g. telegram channel).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-minified": "esbuild plugin-src.js --bundle --minify --platform=node > dist/ot_outlier_msg_plugin-min.js",
+    "build": "esbuild plugin-src.js --bundle --platform=node > dist/ot_outlier_msg_plugin.js",
+    "start": "npm run build && node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oas-tools/oas-telemetry-plugin-outlier-messaging.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oas-tools/oas-telemetry-plugin-outlier-messaging/issues"
+  },
+  "homepage": "https://github.com/oas-tools/oas-telemetry-plugin-outlier-messaging#readme",
+  "dependencies": {
+    "express": "^4.21.0",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}
