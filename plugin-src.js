@@ -210,8 +210,8 @@ class OutlierMessagingPlugin{
   static newValue(v,reqInfo){
     if(OutlierMessagingPlugin.trainingValuesCount < OutlierMessagingPlugin.trainigValueThreshold){
       OutlierMessagingPlugin.trainingValuesCount++;
-      dbglog(`Processing Trainig Request response time #${OutlierMessagingPlugin.trainingValuesCount}: ${v} ms`);
-      dbglog(`Current trained outlier detection range: ${OutlierMessagingPlugin.od.getRange()} ms`);  
+      dbglog(`Processing Trainig Request response time #${OutlierMessagingPlugin.trainingValuesCount}: ${v} s.`);
+      dbglog(`Current trained outlier detection range: ${OutlierMessagingPlugin.od.getRange()} s.`);  
       return OutlierMessagingPlugin.od.addValue(v);
     } else if(OutlierMessagingPlugin.od.isOutlier(v)){
       //Outlier debug: OutlierMessagingPlugin.sendMessage(` New Outlier: ${v}\n ${OutlierMessagingPlugin.od.getParams()}`);
