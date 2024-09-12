@@ -58817,7 +58817,7 @@ ${msg}`);
       return _OutlierMessagingPlugin.od.addValue(v);
     } else if (_OutlierMessagingPlugin.od.isOutlier(v)) {
       _OutlierMessagingPlugin.sendMessage(` Abnormal response time on ${reqInfo.method} to <${reqInfo.target}> with status ${reqInfo.status_code}
- Responsetime was ${v} ms out of the typical range ${_OutlierMessagingPlugin.od.getRange()} ms`);
+ Responsetime was ${v} s. out of the typical range ${_OutlierMessagingPlugin.od.getRange()} s.`);
     }
   }
   static newTrace(t) {

@@ -215,7 +215,7 @@ class OutlierMessagingPlugin{
       return OutlierMessagingPlugin.od.addValue(v);
     } else if(OutlierMessagingPlugin.od.isOutlier(v)){
       //Outlier debug: OutlierMessagingPlugin.sendMessage(` New Outlier: ${v}\n ${OutlierMessagingPlugin.od.getParams()}`);
-      OutlierMessagingPlugin.sendMessage(` Abnormal response time on ${reqInfo.method} to <${reqInfo.target}> with status ${reqInfo.status_code}\n Responsetime was ${v} ms out of the typical range ${OutlierMessagingPlugin.od.getRange()} ms`);
+      OutlierMessagingPlugin.sendMessage(` Abnormal response time on ${reqInfo.method} to <${reqInfo.target}> with status ${reqInfo.status_code}\n Responsetime was ${v} s. out of the typical range ${OutlierMessagingPlugin.od.getRange()} s.`);
     } 
   };
   static newTrace(t){

@@ -14,7 +14,7 @@ In a microservice with [oas-telemetry](https://github.com/oas-tools/oas-telemetr
 POST .../telemetry/plugins
 {
     "id": "outlier-messaging-plugin",
-    "url": "http://localhost:3000/plugin.js",
+    "url": "https://raw.githubusercontent.com/oas-tools/oas-telemetry-plugin-outlier-messaging/main/dist/ot_outlier_msg_plugin.js",
     "config" : {
         "trainigValueThreshold" : 10,
         "alertChannel":{
