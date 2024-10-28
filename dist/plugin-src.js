@@ -231,6 +231,7 @@ class OutlierMessagingPlugin{
 }
 
 dbglog("Instantiating plugin....");
-plugin = OutlierMessagingPlugin;
+const plugin = OutlierMessagingPlugin;
+module.exports = {plugin};
 dbglog(`Plugin <${pluginName}> instantiated!`);
 
