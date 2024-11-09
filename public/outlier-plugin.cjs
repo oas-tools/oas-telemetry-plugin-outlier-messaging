@@ -2,10 +2,10 @@ const TelegramBot = require('node-telegram-bot-api');
 
 const pluginName = "Outlier alert over messaging";
 
-dbglog = ()=>{};
+let dbglogPlugin = ()=>{};
 
 if(process.env.OTDEBUG == "true")
-    dbglog = console.log;
+    dbglogPlugin = console.log;
 
 class OutlierDetector{
   
@@ -24,7 +24,7 @@ class OutlierDetector{
   
   dbglog(msg){
     if(this.debug)
-      dbglog(`[${new Date().toUTCString()}]${msg}`);
+      dbglogPlugin(`[${new Date().toUTCString()}]${msg}`);
   }
 
   computeAvg(){
@@ -87,7 +87,7 @@ class OutlierDetector{
   }
 
   printParams(){
-    dbglog(this.getParams());
+    dbglogPlugin(this.getParams());
   }
 
   getParams(){
@@ -166,10 +166,10 @@ class OutlierMessagingPlugin{
   static messagingBot;
   static load(config={}){
     OutlierMessagingPlugin.name = pluginName;
-    dbglog(`Configuring plugin <${OutlierMessagingPlugin.name}> with config: \n${JSON.stringify(config,null,2)}...`);
+    dbglogPlugin(`Configuring plugin <${OutlierMessagingPlugin.name}> with config: \n${JSON.stringify(config,null,2)}...`);
 
     if(!config.alertChannel){
-        dbglog(`ERROR configuring plugin <${OutlierMessagingPlugin.name}>: Missing 'alertChannel' configuration`);
+        dbglogPlugin(`ERROR configuring plugin <${OutlierMessagingPlugin.name}>: Missing 'alertChannel' configuration`);
     }else{
       if (config.alertChannel.type == "telegram-bot"){
         OutlierMessagingPlugin.alertChannelToken = config.alertChannel.token;
@@ -177,17 +177,17 @@ class OutlierMessagingPlugin{
         if(  OutlierMessagingPlugin.alertChannelToken && OutlierMessagingPlugin.alertChannelToken){
           OutlierMessagingPlugin.messagingBot = new TelegramBot(OutlierMessagingPlugin.alertChannelToken);
           OutlierMessagingPlugin.trainigValueThreshold = config.trainigValueThreshold || 10;
-          dbglog(`Configured plugin <${OutlierMessagingPlugin.name}> with configuration:`);
-          dbglog(`   - trainigValueThreshold: ${OutlierMessagingPlugin.trainigValueThreshold}`);
-          dbglog(`   - alertChannelToken: ${OutlierMessagingPlugin.alertChannelToken}`);
-          dbglog(`   - alertChannelGroupId: ${OutlierMessagingPlugin.alertChannelGroupId}`);
+          dbglogPlugin(`Configured plugin <${OutlierMessagingPlugin.name}> with configuration:`);
+          dbglogPlugin(`   - trainigValueThreshold: ${OutlierMessagingPlugin.trainigValueThreshold}`);
+          dbglogPlugin(`   - alertChannelToken: ${OutlierMessagingPlugin.alertChannelToken}`);
+          dbglogPlugin(`   - alertChannelGroupId: ${OutlierMessagingPlugin.alertChannelGroupId}`);
           OutlierMessagingPlugin.sendMessage(`${OutlierMessagingPlugin.name} plugin configured in this channel!`);  
           OutlierMessagingPlugin.configured = true;  
         }else{
-          dbglog(`Unsupported alertChannel configuration: ${JSON.stringify(config.alertChannel)}`);   
+          dbglogPlugin(`Unsupported alertChannel configuration: ${JSON.stringify(config.alertChannel)}`);   
         }
       }else{
-        dbglog(`Unsupported alertChannel configuration (type ${config.alertChannel.type}`); 
+        dbglogPlugin(`Unsupported alertChannel configuration (type ${config.alertChannel.type}`); 
       }
     }
   };
@@ -199,19 +199,19 @@ class OutlierMessagingPlugin{
   };
   static sendMessage(msg){ 
     //alertChannelGroupId === chatId in telegram
-    dbglog(`[${OutlierMessagingPlugin.alertChannelGroupId}] Sending:\n${msg}`);
+    dbglogPlugin(`[${OutlierMessagingPlugin.alertChannelGroupId}] Sending:\n${msg}`);
     OutlierMessagingPlugin.messagingBot.sendMessage(OutlierMessagingPlugin.alertChannelGroupId, msg).then(()=>{
       return;
     }).catch((error) => {
-      dbglog(error.code);
-      dbglog(error.response.body);
+      dbglogPlugin(error.code);
+      dbglogPlugin(error.response.body);
     });  
   }
   static newValue(v,reqInfo){
     if(OutlierMessagingPlugin.trainingValuesCount < OutlierMessagingPlugin.trainigValueThreshold){
       OutlierMessagingPlugin.trainingValuesCount++;
-      dbglog(`Processing Trainig Request response time #${OutlierMessagingPlugin.trainingValuesCount}: ${v} s.`);
-      dbglog(`Current trained outlier detection range: ${OutlierMessagingPlugin.od.getRange()} s.`);  
+      dbglogPlugin(`Processing Trainig Request response time #${OutlierMessagingPlugin.trainingValuesCount}: ${v} s.`);
+      dbglogPlugin(`Current trained outlier detection range: ${OutlierMessagingPlugin.od.getRange()} s.`);  
       return OutlierMessagingPlugin.od.addValue(v);
     } else if(OutlierMessagingPlugin.od.isOutlier(v)){
       //Outlier debug: OutlierMessagingPlugin.sendMessage(` New Outlier: ${v}\n ${OutlierMessagingPlugin.od.getParams()}`);
@@ -224,14 +224,14 @@ class OutlierMessagingPlugin{
       return;
     }
     let reqInfo = t.attributes.http;
-    dbglog(`New trace received in Plugin: ${reqInfo.method} to <${reqInfo.target}> with status ${reqInfo.status_code} `);
+    dbglogPlugin(`New trace received in Plugin: ${reqInfo.method} to <${reqInfo.target}> with status ${reqInfo.status_code} `);
     let tInfo = parseTraceInfo(t);
     OutlierMessagingPlugin.newValue(tInfo.duration,reqInfo);
   };
 }
 
-dbglog("Instantiating plugin....");
+dbglogPlugin("Instantiating plugin....");
 const plugin = OutlierMessagingPlugin;
 module.exports = {plugin};
-dbglog(`Plugin <${pluginName}> instantiated!`);
+dbglogPlugin(`Plugin <${pluginName}> instantiated!`);
 
